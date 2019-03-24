@@ -1,76 +1,114 @@
-var roleBuilder = {
-    /** @param {Creep} creep **/
-    run: function(creep) {
-        if(creep.memory.building && creep.carry.energy == 0) {
+﻿var roleBuilder = {
+    /** 
+     *  @param {Creep} creep 
+     *  This is the code for builder creeps, they should:
+     *  Collect energy from storages > extensions > sources in order to
+     *  Repair structures that are low on hits > Build structures currently queued
+     *  Upgrade the room controller
+     ***/
+    run: function (creep) {
+        var repairThreshold = .9;
+
+        if (creep.memory.building && creep.carry.energy == 0) {
+            creep.say('🔄 Harvesting');
+
             creep.memory.building = false;
-            creep.say('harvesting');
-	    }
-	    
-	    if(!creep.memory.building && creep.carry.energy >= creep.carryCapacity*.85) {
-	        creep.memory.building = true;
-	        creep.say('building');
-	    }
+            creep.memory.harvesting = true;
+        }
 
-	    if(creep.memory.building) {
-	        if (creep.memory.site == '') {
-    	        var buildings = creep.room.find(FIND_CONSTRUCTION_SITES);
-    	        
-    	        if (buildings.length) {
-    	            buildings.sort((a,b) => a.pos.findClosestByRange(creep.pos) - b.pos.findClosestByRange(creep.pos));
-                    creep.memory.site = buildings[0].id;
-    	        }
-	        }
+        if (!creep.memory.building && creep.carry.energy >= creep.carryCapacity * .95) {
+            creep.memory.building = true;
+        }
 
-            if (creep.memory.site != '') {
-                if(creep.build(Game.getObjectById(creep.memory.site)) == ERR_NOT_IN_RANGE) {
+        // Creep has enough energy to build so lets go build
+        if (creep.memory.building) {
+            // Make sure the site still exists if the creep was already working on one
+            if (creep.memory.site !== '' && !Game.getObjectById(creep.memory.site)) {
+                creep.memory.site = '';
+                creep.memory.repairing = false;
+            }
+
+            // Creep is in repair mode, if the current site still exists and is above threshold percentage stop
+            if (creep.memory.site !== '' && creep.memory.repairing) {
+                if (Game.getObjectById(creep.memory.site).hits / Game.getObjectById(creep.memory.site).hitsMax > repairThreshold) {
+                    creep.memory.repairing = false;
+                    creep.memory.site = '';
+                }
+            }
+
+            // This creep isn't already working on a site so check repairs, if none needed find a site to build on
+            if (creep.memory.site === '') {
+                sites = creep.room.find(FIND_STRUCTURES, { filter: object => object.hits < object.hitsMax / 3 });
+
+                if (sites.length) {
+                    sites.sort((a, b) => a.hits - b.hits);
+                    creep.memory.repairing = true;
+                    creep.memory.site = sites[0];
+                } else {
+                    sites = creep.room.find(FIND_CONSTRUCTION_SITES);
+
+                    if (sites.length) {
+                        sites.sort((a, b) => a.pos.findClosestByRange(creep.pos) - b.pos.findClosestByRange(creep.pos));
+                        creep.memory.site = sites[0].id;
+                    } else {
+                        sites = creep.room.find(FIND_STRUCTURES, { filter: object => object.hits < object.hitsMax * .9 });
+                        if (sites.length) {
+                            sites.sort((a, b) => a.hits - b.hits);
+                            creep.memory.repairing = true;
+                            creep.memory.site = sites[0];
+                        }
+                    }
+                }
+            }
+
+            // If we have found a repair or construction site 
+            if (creep.memory.site !== '') {
+                creep.say('🚧 Building');
+
+                if (creep.build(Game.getObjectById(creep.memory.site)) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(Game.getObjectById(creep.memory.site));
                 }
-
-    	        if (!Game.getObjectById(creep.memory.site)) {
-    	            creep.memory.site = '';
-    	        }
-	        } else { // nothing needs to be built
-	            buildings = creep.room.find(FIND_STRUCTURES, {filter: object => object.hits < object.hitsMax/2});
-	            
-	            if (buildings.length) {
-	                buildings.sort((a,b) => a.hits - b.hits);
-	                if (creep.repair(buildings[0]) == ERR_NOT_IN_RANGE) {
-	                    creep.moveTo(buildings[0]);
-	                }
-	            } else { // nothing needs to be repaired either
-                    if(creep.memory.upgrading && creep.carry.energy == 0) {
-                        creep.memory.upgrading = false;
-                        creep.say('harvesting');
-            	    }
-            	    if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-            	        creep.memory.upgrading = true;
-            	        creep.say('upgrading');
-            	    }
-            
-            	    if(creep.memory.upgrading) {
-                        if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                            creep.moveTo(creep.room.controller);
-                        }
-                    }
-                    else {
-                        var sources = creep.room.find(FIND_SOURCES);
-                        sources.sort((a, b) => a.pos.findClosestByRange(creep.pos) - b.pos.findClosestByRange(creep.pos));
-                        
-                        if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                            creep.moveTo(sources[1]);
-                        }
-                    }
-	                
-	            }
-	        }
-        } else {
-            var sources = creep.pos.findClosestByPath(creep.room.find(FIND_SOURCES));
-
-            if(creep.harvest(sources) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources);
+                creep.memory.building = true;
+            } else {
+                creep.memory.repairing = false;
+                creep.memory.building = false;
             }
         }
-	}
+
+        if (creep.memory.harvesting) {
+            if (creep.memory.harvesting && creep.carry.energy >= creep.carryCapacity * .95) {
+                creep.memory.harvesting = false;
+                creep.say('⚡ Energy Full');
+            } else {
+                var sources = creep.room.find(FIND_MY_STRUCTURES, { filter: (structure) => structure.structureType == STRUCTURE_STORAGE && structure.store.energy > 0 });
+
+                if (!sources.length) {
+                    sources = creep.room.find(FIND_STRUCTURES, { filter: (structure) => structure.structureType == STRUCTURE_CONTAINER && structure.store.energy > 0 });
+                }
+
+                if (sources.length) {
+                    var target = creep.pos.findClosestByPath(sources);
+                    if (target) {
+                        if (creep.withdraw(Game.getObjectById(creep.memory.target), RESOURCE_ENERGY, creep.storeCapacity - creep.store) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(Game.getObjectById(creep.memory.target));
+                        }
+                    }
+                } else {
+                    sources = creep.pos.findClosestByPath(creep.room.find(FIND_SOURCES));
+                    if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(source);
+                    }
+                }
+            }
+
+
+        // Creep had no repair work or construction sites so while creep has energy
+        if (!creep.memory.building && !creep.memory.harvesting) {
+            if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffaa00' } });
+            }
+        }
+    }
 };
 
 module.exports = roleBuilder;
