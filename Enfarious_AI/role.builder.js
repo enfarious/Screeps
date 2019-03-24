@@ -100,7 +100,7 @@
                     }
                 }
             }
-
+        }
 
         // Creep had no repair work or construction sites so while creep has energy
         if (!creep.memory.building && !creep.memory.harvesting) {
