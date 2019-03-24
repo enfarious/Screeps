@@ -1,6 +1,8 @@
 var creepSpawner = {
     
-    /** @param {int, int, int} MIN_UPGRADERS, MIN_HARVESTERS, MIN_BUILDERS **/
+    /** 
+     *  @param {int, int, int} MIN_UPGRADERS, MIN_HARVESTERS, MIN_BUILDERS 
+     ***/
     run: function(MIN_UPGRADERS, MIN_HARVESTERS, MIN_BUILDERS, MAX_ATTACKERS, MIN_TRANSPORTERS) {
         if (Game.spawns['Spawn1'].spawning || Game.spawns['Spawn1'].room.energyAvailable < 150) {
             return;
