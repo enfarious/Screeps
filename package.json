@@ -1,0 +1,12 @@
+{
+	"name": "Screeps_Enfarious_AI",
+	"description": "Screeps bot AI by Enfarious",
+	"author": "Mike Enfarious Davidson",
+	"version": "0.0.1",
+	"devDependencies": {
+		"jshint": "^2.6.0"
+  },
+	"scripts": {
+		"test": "jshint main.js"
+	}
+}
