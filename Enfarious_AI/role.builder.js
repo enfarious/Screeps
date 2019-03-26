@@ -9,15 +9,18 @@
     run: function (creep) {
         var repairThreshold = .9;
 
-        if (creep.memory.building && creep.carry.energy == 0) {
-            creep.say('🔄 Harvesting');
+        if (!creep.memory.harvesting && creep.carry.energy == 0) {
+            creep.say('⚡ Harvesting');
 
             creep.memory.building = false;
             creep.memory.harvesting = true;
         }
 
-        if (!creep.memory.building && creep.carry.energy >= creep.carryCapacity * .95) {
+        if (creep.memory.harvesting && creep.carry.energy >= creep.carryCapacity * .95) {
+            creep.say('🚧 Building');
+
             creep.memory.building = true;
+            creep.memory.harvesting = false;
         }
 
         // Creep has enough energy to build so lets go build
@@ -43,7 +46,7 @@
                 if (sites.length) {
                     sites.sort((a, b) => a.hits - b.hits);
                     creep.memory.repairing = true;
-                    creep.memory.site = sites[0];
+                    creep.memory.site = sites[0].id;
                 } else {
                     sites = creep.room.find(FIND_CONSTRUCTION_SITES);
 
@@ -55,7 +58,7 @@
                         if (sites.length) {
                             sites.sort((a, b) => a.hits - b.hits);
                             creep.memory.repairing = true;
-                            creep.memory.site = sites[0];
+                            creep.memory.site = sites[0].id;
                         }
                     }
                 }
@@ -63,12 +66,17 @@
 
             // If we have found a repair or construction site 
             if (creep.memory.site !== '') {
-                creep.say('🚧 Building');
-
-                if (creep.build(Game.getObjectById(creep.memory.site)) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(Game.getObjectById(creep.memory.site));
-                }
                 creep.memory.building = true;
+
+                if (creep.memory.repairing) {
+                    if (creep.repair(Game.getObjectById(creep.memory.site)) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(Game.getObjectById(creep.memory.site));
+                    }
+                } else {
+                    if (creep.build(Game.getObjectById(creep.memory.site)) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(Game.getObjectById(creep.memory.site));
+                    }
+                }
             } else {
                 creep.memory.repairing = false;
                 creep.memory.building = false;
@@ -89,8 +97,10 @@
                 if (sources.length) {
                     var target = creep.pos.findClosestByPath(sources);
                     if (target) {
-                        if (creep.withdraw(Game.getObjectById(creep.memory.target), RESOURCE_ENERGY, creep.storeCapacity - creep.store) == ERR_NOT_IN_RANGE) {
-                            creep.moveTo(Game.getObjectById(creep.memory.target));
+                        creep.memory.source = target.id;
+
+                        if (creep.withdraw(Game.getObjectById(creep.memory.source), RESOURCE_ENERGY, creep.storeCapacity - creep.store) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(Game.getObjectById(creep.memory.source));
                         }
                     }
                 } else {
@@ -101,6 +111,7 @@
                 }
             }
         }
+
 
         // Creep had no repair work or construction sites so while creep has energy
         if (!creep.memory.building && !creep.memory.harvesting) {
