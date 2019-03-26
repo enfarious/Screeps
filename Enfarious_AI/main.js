@@ -12,10 +12,20 @@ var creepSpawner = require('creep.spawner');
 var MIN_HARVESTERS = 3;
 var MIN_TRANSPORTERS = 1;
 
-var MIN_BUILDERS = 4;
+var MIN_BUILDERS = 2;
 var MIN_UPGRADERS = 2;
 
 var MIN_ATTACKERS = 0;
+
+const STATES = {
+    idle: 1,
+    harvesting: 2,
+    collecting: 3,
+    depositing: 4,
+    building: 5,
+    repairing: 6,
+    mining: 7,
+};
 
 module.exports.loop = function () {
 

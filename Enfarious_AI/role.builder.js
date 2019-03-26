@@ -100,13 +100,13 @@
                         creep.memory.source = target.id;
 
                         if (creep.withdraw(Game.getObjectById(creep.memory.source), RESOURCE_ENERGY, creep.storeCapacity - creep.store) == ERR_NOT_IN_RANGE) {
-                            creep.moveTo(Game.getObjectById(creep.memory.source));
+                            creep.moveTo(Game.getObjectById(creep.memory.source), { visualizePathStyle: { stroke: '#ffaa00' } });
                         }
                     }
                 } else {
-                    sources = creep.pos.findClosestByPath(creep.room.find(FIND_SOURCES));
+                    source = creep.pos.findClosestByPath(creep.room.find(FIND_SOURCES));
                     if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(source);
+                        creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
                     }
                 }
             }
