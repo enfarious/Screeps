@@ -1,4 +1,4 @@
-﻿var roleBuilder = {
+var roleBuilder = {
     /** 
      *  @param {Creep} creep 
      *  This is the code for builder creeps, they should:
@@ -88,14 +88,14 @@
                 creep.memory.harvesting = false;
                 creep.say('⚡ Energy Full');
             } else {
-                var sources = creep.room.find(FIND_MY_STRUCTURES, { filter: (structure) => structure.structureType == STRUCTURE_STORAGE && structure.store.energy > 0 });
+                let sources = creep.room.find(FIND_MY_STRUCTURES, { filter: (structure) => structure.structureType == STRUCTURE_STORAGE && structure.store.energy > 0 });
 
                 if (!sources.length) {
                     sources = creep.room.find(FIND_STRUCTURES, { filter: (structure) => structure.structureType == STRUCTURE_CONTAINER && structure.store.energy > 0 });
                 }
 
                 if (sources.length) {
-                    var target = creep.pos.findClosestByPath(sources);
+                    let target = creep.pos.findClosestByPath(sources);
                     if (target) {
                         creep.memory.source = target.id;
 
@@ -104,7 +104,7 @@
                         }
                     }
                 } else {
-                    sources = creep.pos.findClosestByPath(creep.room.find(FIND_SOURCES));
+                    let source = creep.pos.findClosestByPath(creep.room.find(FIND_SOURCES));
                     if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(source);
                     }
