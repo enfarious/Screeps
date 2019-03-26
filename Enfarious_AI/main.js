@@ -1,25 +1,25 @@
-var roleHarvester = require('role.harvester');
-var roleTransporter = require('role.transporter');
+const roleHarvester = require('role.harvester');
+const roleTransporter = require('role.transporter');
+const roleBuilder = require('role.builder');
+const roleUpgrader = require('role.upgrader');
+const roleAttacker = require('role.attacker');
+const roleTower = require('role.tower');
 
-var roleBuilder = require('role.builder');
-var roleUpgrader = require('role.upgrader');
+const creepSpawner = require('creep.spawner');
 
-var roleAttacker = require('role.attacker');
-var roleTower = require('role.tower');
+// Define minimum counts for creep types
+const MIN_HARVESTERS = 3;
+const MIN_TRANSPORTERS = 1;
+const MIN_BUILDERS = 4;
+const MIN_UPGRADERS = 2;
+const MIN_ATTACKERS = 0;
 
-var creepSpawner = require('creep.spawner');
-
-var MIN_HARVESTERS = 3;
-var MIN_TRANSPORTERS = 1;
-
-var MIN_BUILDERS = 4;
-var MIN_UPGRADERS = 2;
-
-var MIN_ATTACKERS = 0;
-
+/***
+* The main loop
+***/
 module.exports.loop = function () {
 
-    for (var name in Memory.creeps) {
+    for (let name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
             console.log('Clearing non-existing creep memory:', name);
@@ -30,8 +30,8 @@ module.exports.loop = function () {
     creepSpawner.run(MIN_UPGRADERS, MIN_HARVESTERS, MIN_BUILDERS, MIN_ATTACKERS, MIN_TRANSPORTERS);
 
     // Control creeps
-    for (var name in Game.creeps) {
-        var creep = Game.creeps[name];
+    for (let name in Game.creeps) {
+        let creep = Game.creeps[name];
         if (creep.memory.role == 'harvester') {
             roleHarvester.run(creep);
         }
@@ -49,11 +49,11 @@ module.exports.loop = function () {
         }
     }
 
-    for (var room in Game.rooms) {
-        var towers = Game.rooms[room].find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
+    for (let room in Game.rooms) {
+        let towers = Game.rooms[room].find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
 
         if (towers.length) {
-            for (var tower in towers) {
+            for (let tower in towers) {
                 roleTower.run(room, towers[tower]);
             }
         }
