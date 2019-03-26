@@ -5,11 +5,11 @@
   "version": "0.0.1",
   "devDependencies": {
     "jshint": "^2.6.0",
-    "jshint.options": {
-      "esversion": "6"
-    }
   },
   "scripts": {
     "test": "./Enfarious_AI/main.js"
+  },
+  "jshintConfig": {
+    "esversion": "6"
   }
 }
