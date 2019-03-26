@@ -10,6 +10,6 @@
     }
   },
   "scripts": {
-    "test": "jshint ./Enfarious_AI/main.js"
+    "test": "./Enfarious_AI/main.js"
   }
 }
