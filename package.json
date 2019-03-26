@@ -1,15 +1,15 @@
 {
-	"name": "Screeps_Enfarious_AI",
-	"description": "Screeps bot AI by Enfarious",
-	"author": "Mike Enfarious Davidson",
-	"version": "0.0.1",
-	"devDependencies": {
-		"jshint": "^2.6.0",
-		"jshint.options": {
-			"esversion": 6,
-		}
+  "name": "Screeps_Enfarious_AI",
+  "description": "Screeps bot AI by Enfarious",
+  "author": "Mike Enfarious Davidson",
+  "version": "0.0.1",
+  "devDependencies": {
+    "jshint": "^2.6.0",
+    "jshint.options": {
+      "esversion": "6"
+    }
   },
-	"scripts": {
-		"test": "jshint ./Enfarious_AI/main.js"
-	}
+  "scripts": {
+    "test": "jshint ./Enfarious_AI/main.js"
+  }
 }
