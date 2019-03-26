@@ -4,7 +4,7 @@
   "author": "Mike Enfarious Davidson",
   "version": "0.0.1",
   "devDependencies": {
-    "jshint": "^2.6.0",
+    "jshint": "^2.6.0"
   },
   "scripts": {
     "test": "jshint ./Enfarious_AI/main.js"
