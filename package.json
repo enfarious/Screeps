@@ -4,6 +4,10 @@
   "author": "Mike Enfarious Davidson",
   "version": "0.0.1",
   "devDependencies": {
+    "@types/lodash": "^3.10.1",
+    "@types/node": "^8.10.39",
+    "@types/screeps": "^2.4.0",
+
     "jshint": "^2.6.0"
   },
   "scripts": {
