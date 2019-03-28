@@ -1,4 +1,4 @@
-# Screeps
+# Screeps [![Build Status](https://travis-ci.com/enfarious/Screeps.svg?branch=master)](https://travis-ci.com/enfarious/Screeps)
 
 This is the code running on the game Screeps (https://screeps.com), specifically the code driving the Creeps for all of Enfarious' rooms. 
 This code is probably more broken than not, probably sloppy, and almost certainly not complete.
