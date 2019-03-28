@@ -10,11 +10,11 @@
     "jshint": "^2.6.0"
   },
   "dependencies": {
-    "screeps": "^2.4.0",
+    "screeps": "^2.4.0"
   },
   "scripts": {
     "jshint": "jshint ./Enfarious_AI/main.js",
-    "test": "npm ./Enfarious_AI/main.js",
+    "test": "npm ./Enfarious_AI/main.js"
   },
   "jshintConfig": {
     "esversion": "6"
