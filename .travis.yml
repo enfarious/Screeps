@@ -12,4 +12,4 @@ notifications:
 notifications:
   slack:
     rooms:
-	  - splicedinfinities:jqNfekoqH3jXS8xJBFGe8UGN#general
+      - splicedinfinities:jqNfekoqH3jXS8xJBFGe8UGN#general
