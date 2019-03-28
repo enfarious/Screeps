@@ -1,22 +1,39 @@
 {
   "name": "Screeps_Enfarious_AI",
-  "description": "Screeps bot AI by Enfarious",
-  "author": "Mike Enfarious Davidson",
+  "description": "Screeps AI by Enfarious",
+  "author": "Mike Davidson",
   "version": "0.0.1",
+  "license": "GPL-3",
+  "homepage": "https://github.com/enfarious/Screeps/blob/master/README.md",
+  "keywords": [
+    "Screeps",
+    "ai",
+    "javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/enfarious/Screeps"
+  },
+  "bugs": {
+    "url": "https://github.com/enfarious/Screeps/issues"
+  },
   "devDependencies": {
     "@types/lodash": "^3.10.1",
     "@types/node": "^8.10.39",
+    "@types/screeps": "^2.4.0",
 
     "jshint": "^2.6.0"
   },
   "dependencies": {
-    "screeps": "^2.4.0"
   },
   "scripts": {
-    "jshint": "jshint ./Enfarious_AI/main.js",
-    "test": "npm ./Enfarious_AI/main.js"
+    "lint": "jshint ./Enfarious_AI/*"
   },
   "jshintConfig": {
-    "esversion": "6"
+    "esversion": "6",
+    "eqeqeq": "true",
+    "curly": "true",
+    "undef": "true",
+    "unused": "true"
   }
 }
