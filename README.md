@@ -7,22 +7,22 @@ The idea is to slowly but surely develop a codebase that drives the Creeps, and 
 The current Creeps are not very efficient and break often.<br />
 
 ToDo:<br />
-	* Creep spawn automation
-		* Maintain ratios of Creep classes (Harvester, Builder, Transporter, Miner, Defender, etc.)
-		* Focus spawn defenders when attacks occur
-		* Scouts when room reaches certain criteria
-	* Creep AI by Creep class
-		* Harvesting and Mining
-		* Building, Repairing and Upgrading structures and Room Controller
-		* Transporting from energy/mineral mines to storage and/or buildings (Minerals and Energy)
-		* Defense (Attack and Healing)
-	* Structure placement automation
-		* Roads
-		* Walls
-		* Storage
-		* Towers
-	* Defenses
-		* Towers and Defenders working together
-		* Walls and Ramparts in proper use
-	* Mineral mining?
-	* Power Creeps?
+* Creep spawn automation
+  * Maintain ratios of Creep classes (Harvester, Builder, Transporter, Miner, Defender, etc.)
+  * Focus spawn defenders when attacks occur
+  * Scouts when room reaches certain criteria
+* Creep AI by Creep class
+  * Harvesting and Mining
+  * Building, Repairing and Upgrading structures and Room Controller
+  * Transporting from energy/mineral mines to storage and/or buildings (Minerals and Energy)
+  * Defense (Attack and Healing)
+* Structure placement automation
+  * Roads
+  * Walls
+  * Storage
+  * Towers
+  * Defenses
+* Towers and Defenders working together
+* Walls and Ramparts in proper use
+* Mineral mining?
+* Power Creeps?
