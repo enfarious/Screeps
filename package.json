@@ -13,7 +13,8 @@
     "screeps": "^2.4.0",
   },
   "scripts": {
-    "test": "jshint ./Enfarious_AI/main.js"
+    "jshint": "jshint ./Enfarious_AI/main.js",
+    "test": "npm ./Enfarious_AI/main.js",
   },
   "jshintConfig": {
     "esversion": "6"
