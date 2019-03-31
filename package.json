@@ -27,7 +27,7 @@
   "dependencies": {
   },
   "scripts": {
-    "lint": "jshint ./Enfarious_AI/*"
+    "test": "jshint ./Enfarious_AI/*"
   },
   "jshintConfig": {
     "esversion": "6",
